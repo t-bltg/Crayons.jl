@@ -14,9 +14,11 @@ jobs:
       matrix:
         julia-version: [1]
         os: [ubuntu-latest]
+        # `subdir` is the package directory relative to the repository root:
+        # use `.` for standard layouts, or the sub-package path for monorepos
         package:
-          - {user: ronisbr, repo: PrettyTables.jl}
-          - {user: JuliaPlots, repo: UnicodePlots.jl}
+          - {user: ronisbr, repo: PrettyTables.jl, subdir: .}
+          - {user: JuliaPlots, repo: UnicodePlots.jl, subdir: UnicodePlots}
 
     steps:
       - uses: actions/checkout@v7
@@ -30,7 +32,7 @@ jobs:
           repository: ${{ matrix.package.user }}/${{ matrix.package.repo }}
           path: downstream
       - name: Load this and run the downstream tests
-        shell: julia --color=yes --project=downstream {0}
+        shell: julia --color=yes --project=downstream/${{ matrix.package.subdir }} {0}
         run: |
           using Pkg
           try
