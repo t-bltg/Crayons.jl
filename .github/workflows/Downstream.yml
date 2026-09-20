@@ -16,6 +16,7 @@ jobs:
         os: [ubuntu-latest]
         package:
           - {user: ronisbr, repo: PrettyTables.jl}
+          - {user: JuliaPlots, repo: UnicodePlots.jl}
 
     steps:
       - uses: actions/checkout@v7
